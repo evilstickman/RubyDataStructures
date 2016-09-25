@@ -1,7 +1,7 @@
 # Ruby Data Structures
 Implements basic data structures in ruby, as well as some related algorithms
 
-# Usage
+# Usage - Data Structures
 
 ## Binary Tree
 
