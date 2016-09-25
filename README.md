@@ -28,56 +28,16 @@ irb(main):135:0> bt.root.print_self
 ----19
 => nil
 irb(main):136:0> bt.pre_order_traversal_recursive(bt.root)
-10
-11
-12
-14
-17
-13
-20
-18
-16
-15
-19
+10,11,12,14,17,13,20,18,16,15,19 (output modified for succinctness)
 => nil
 irb(main):137:0> bt.in_order_traversal_recursive(bt.root)
-17
-14
-12
-20
-13
-18
-11
-16
-10
-19
-15
+17,14,12,20,13,18,11,16,10,19,15 (output modified for succinctness)
 => nil
 irb(main):138:0> bt.post_order_traversal_recursive(bt.root)
-17
-14
-20
-18
-13
-12
-16
-11
-19
-15
-10
+17,14,20,18,13,12,16,11,19,15,10 (output modified for succinctness)
 => nil
 irb(main):139:0> bt.level_order_traversal(bt.root)
-10
-11
-15
-12
-16
-19
-14
-13
-17
-20
-18
+10,11,15,12,16,19,14,13,17,20,18 (output modified for succinctness)
 => nil
 irb(main):140:0>
 ```
