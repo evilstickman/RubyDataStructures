@@ -56,51 +56,30 @@ module Datatypes
     end
 
     def delete_value_from_tree(data, node = @root)
-      orig_tree = node
-      queue = [node]
-      last_dir = nil
-      while(queue.length > 0)
-        node = queue.pop
-        if node && (node.data == data)
-          if node.is_leaf?
-            puts "is leaf, deleting #{node.data}"
-            update_parent_with_new_child(node, last_dir, nil)
-            node = nil
-          elsif node.right.nil?
-            puts "taking left (#{node.left.data.to_s}), deleting #{node.data.to_s}"
-            update_parent_with_new_child(node, last_dir, node.left)
-          elsif node.left.nil?
-            puts "taking right (#{node.right.data.to_s}), deleting #{node.data.to_s}"
-
-            update_parent_with_new_child(node, last_dir, node.right)
-          else
-            puts "swapping with largest sub"
-            # find largest value in tree
-            ln = largest_node_in_subtree(node.left)
-            puts "Swapping #{ln.data.to_s} with #{node.data.to_s}"
-            if(node.parent)
-              update_parent_with_new_child(node, last_dir, ln)
-            else
-              node = ln
-            end
-            node = ln
-            delete_value_from_tree(ln.data, node.left)
-          end
-        elsif node && data > node.data
-          puts "looking right"
-          last_dir = RIGHT_CHILD
-          queue << node.right if node.right
-        elsif node && data < node.data
-          last_dir = LEFT_CHILD
-          puts "looking left"
-          queue << node.left if node.left
+      if(node.data == data)
+        if node.is_leaf?
+          node = nil
+          return node
+        elsif node.right.nil?
+          node = node.left
+          return node
+        elsif node.left.nil?
+          node = node.right
+          return node
+        else
+          ln = largest_node_in_subtree(node.left)
+          node.data = ln.data
+          node.left = delete_value_from_tree(node.data, node.left)
+          return node
         end
-      end
-      if(orig_tree)
-        orig_tree.print_self
+      elsif(data > node.data)
+        node.right = delete_value_from_tree(data, node.right) if node.right
+        return node
       else
-        root.print_self
+        node.left = delete_value_from_tree(data, node.left) if node.left
+        return node
       end
+      node
     end
 
     def update_parent_with_new_child(node, direction, newval)

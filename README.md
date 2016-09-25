@@ -76,7 +76,38 @@ irb(main):156:0> bt.post_order_traversal_recursive(bt.root)
 irb(main):157:0> bt.level_order_traversal(bt.root)
 16,9,19,7,11,46,34,20,23
 => nil
-irb(main):158:0>
+irb(main):149:0> bt = Datatypes::BinarySearchTree.new
+=> #<Datatypes::BinarySearchTree:0x4beddc8 @root=#<Utility::BTNode:0x4bedd80>>
+irb(main):304:0> (0..10).each do |num|
+irb(main):305:1*   bt.add_node_to_tree(bt.root, rand(100))
+irb(main):306:1> end
+=> 0..10
+irb(main):307:0> bt.root.print_self
+34
+--L24
+--L--L19
+--R94
+--R--L88
+--R--L--L67
+--R--L--L--L66
+--R--L--L--L--L60
+--R--L--R93
+--R--R96
+=> nil
+irb(main):308:0> bt.delete_value_from_tree(34)
+=> #<Utility::BTNode:0x4ceb598 @data=24, @left=#<Utility::BTNode:0x618b880 @data=19>, @right=#<Utility::BTNode:0x618b8e0 @data=94, @left=#<Utility::BTNode:0x618b8c8 @data=88, @left=#<Utility::BTNode:0x618b8b0 @data=67, @left=#<Utility::BTNode:0x618b868 @data=66, @left=#<Utility::BTNode:0x618b850 @data=60>>>, @right=#<Utility::BTNode:0x618b820 @data=93>>, @right=#<Utility::BTNode:0x618b838 @data=96>>>
+irb(main):309:0> bt.root.print_self
+24
+--L19
+--R94
+--R--L88
+--R--L--L67
+--R--L--L--L66
+--R--L--L--L--L60
+--R--L--R93
+--R--R96
+=> nil
+irb(main):310:0>
 ```
 
 ## Trie
