@@ -42,6 +42,43 @@ irb(main):139:0> bt.level_order_traversal(bt.root)
 irb(main):140:0>
 ```
 
+## Binary Search Tree
+
+```
+irb(main):148:0> load('lib/binary_search_tree.rb')
+=> true
+irb(main):149:0> bt = Datatypes::BinarySearchTree.new
+=> #<Datatypes::BinarySearchTree:0x4beddc8 @root=#<Utility::BTNode:0x4bedd80>>
+irb(main):150:0> (1..10).each do |num|
+irb(main):151:1*   bt.add_node_to_tree(bt.root, rand(50))
+irb(main):152:1> end
+=> 1..10
+irb(main):153:0> bt.root.print_self
+16
+--9
+----7
+----11
+--19
+----46
+------34
+--------20
+----------23
+=> nil
+irb(main):154:0> bt.pre_order_traversal_recursive(bt.root)
+16,9,7,11,19,46,34,20,23
+=> nil
+irb(main):155:0> bt.in_order_traversal_recursive(bt.root)
+7,9,11,16,19,20,23,34,46
+=> nil
+irb(main):156:0> bt.post_order_traversal_recursive(bt.root)
+7,11,9,23,20,34,46,19,16
+=> nil
+irb(main):157:0> bt.level_order_traversal(bt.root)
+16,9,19,7,11,46,34,20,23
+=> nil
+irb(main):158:0>
+```
+
 ## Trie
 ```
 irb(main):001:0> load('lib/trie.rb')
