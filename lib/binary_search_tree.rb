@@ -1,10 +1,11 @@
 require 'utility/btnode'
 
 module Datatypes
-  class BinaryTree
+  class BinarySearchTree
     attr_accessor :root
     LEFT_CHILD = 0
     RIGHT_CHILD = 1
+    DUPLICATE = 2
     def initialize
       @root = Utility::BTNode.new
     end
@@ -32,7 +33,7 @@ module Datatypes
         return node
       end
 
-      dir = left_or_right
+      dir = left_or_right(node, data)
       if dir == LEFT_CHILD
         if(node.left.nil?)
           node.left = Utility::BTNode.new
@@ -41,7 +42,7 @@ module Datatypes
         else
           return add_node_to_tree(node.left, data)
         end
-      else
+      elsif dir == RIGHT_CHILD
         if(node.right.nil?)
           node.right = Utility::BTNode.new
           node.right.data = data
@@ -49,12 +50,15 @@ module Datatypes
         else
           return add_node_to_tree(node.right, data)
         end
+      else #duplicate
+        return node
       end
     end
 
-    def left_or_right
-      srand
-      rand(2) == 1 ? BinaryTree::LEFT_CHILD : BinaryTree::RIGHT_CHILD
+    def left_or_right(node,data)
+      return LEFT_CHILD if data < node.data
+      return RIGHT_CHILD if  data > node.data
+      return DUPLICATE
     end
 
     def pre_order_traversal_recursive(node)
