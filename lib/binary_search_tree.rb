@@ -25,7 +25,7 @@ module Datatypes
     # Uses randomized algorithm to populate data structure, to add some variety
     def add_node_to_tree(node, data)
       if(node.nil?)
-         node = Utility::BTNode.new
+         node = Utility::BTNode.new(node)
          node.data = data
          return node
       elsif(node.data.nil?)
@@ -36,7 +36,7 @@ module Datatypes
       dir = left_or_right(node, data)
       if dir == LEFT_CHILD
         if(node.left.nil?)
-          node.left = Utility::BTNode.new
+          node.left = Utility::BTNode.new(node)
           node.left.data = data
           return node
         else
@@ -44,7 +44,7 @@ module Datatypes
         end
       elsif dir == RIGHT_CHILD
         if(node.right.nil?)
-          node.right = Utility::BTNode.new
+          node.right = Utility::BTNode.new(node)
           node.right.data = data
           return node
         else
@@ -53,6 +53,71 @@ module Datatypes
       else #duplicate
         return node
       end
+    end
+
+    def delete_value_from_tree(data, node = @root)
+      orig_tree = node
+      queue = [node]
+      last_dir = nil
+      while(queue.length > 0)
+        node = queue.pop
+        if node && (node.data == data)
+          if node.is_leaf?
+            puts "is leaf, deleting #{node.data}"
+            update_parent_with_new_child(node, last_dir, nil)
+            node = nil
+          elsif node.right.nil?
+            puts "taking left (#{node.left.data.to_s}), deleting #{node.data.to_s}"
+            update_parent_with_new_child(node, last_dir, node.left)
+          elsif node.left.nil?
+            puts "taking right (#{node.right.data.to_s}), deleting #{node.data.to_s}"
+
+            update_parent_with_new_child(node, last_dir, node.right)
+          else
+            puts "swapping with largest sub"
+            # find largest value in tree
+            ln = largest_node_in_subtree(node.left)
+            puts "Swapping #{ln.data.to_s} with #{node.data.to_s}"
+            if(node.parent)
+              update_parent_with_new_child(node, last_dir, ln)
+            else
+              node = ln
+            end
+            node = ln
+            delete_value_from_tree(ln.data, node.left)
+          end
+        elsif node && data > node.data
+          puts "looking right"
+          last_dir = RIGHT_CHILD
+          queue << node.right if node.right
+        elsif node && data < node.data
+          last_dir = LEFT_CHILD
+          puts "looking left"
+          queue << node.left if node.left
+        end
+      end
+      if(orig_tree)
+        orig_tree.print_self
+      else
+        root.print_self
+      end
+    end
+
+    def update_parent_with_new_child(node, direction, newval)
+      if(direction == LEFT_CHILD)
+        node.parent.left = newval if node.parent
+      elsif(direction == RIGHT_CHILD)
+        node.parent.right = newval if node.parent
+      end
+    end
+
+    def largest_node_in_subtree(node)
+      val = nil
+      target = node
+      while(target.right)
+        target = target.right unless target.right.nil?
+      end
+      return target
     end
 
     def left_or_right(node,data)
@@ -92,5 +157,6 @@ module Datatypes
         end
       end
     end
+
   end
 end
